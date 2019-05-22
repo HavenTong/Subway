@@ -1,7 +1,7 @@
 <template>
   <el-form :rules="rules" class="login-container" label-position="left"
            label-width="0px" v-loading="loading">
-    <h2 class="login_title">地铁调度系统登录</h2>
+    <h2 class="login_title">地铁调度系统</h2>
     <el-form-item prop="account">
       <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="账号"></el-input>
     </el-form-item>

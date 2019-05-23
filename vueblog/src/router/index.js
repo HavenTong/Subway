@@ -10,6 +10,8 @@ import PostArticle from '@/components/PostArticle'
 import UserMana from '@/components/UserMana'
 import BlogDetail from '@/components/BlogDetail'
 import LineInfo from '@/components/LineInfo'
+import StationInfo from '@/components/StationInfo'
+import RunsInfo from '@/components/RunsInfo'
 
 Vue.use(Router)
 
@@ -31,11 +33,11 @@ export default new Router({
         name: '线路信息',
         children: [
             {
-                path: '/LineInfo',
+                path: '/lineInfo',
                 iconCls: 'fa fa-subway',
                 name: '线路信息',
                 component: LineInfo
-                }
+            }
         ]
     },{
        path: '/home',
@@ -43,10 +45,10 @@ export default new Router({
        name: '站点信息',
        children: [
            {
-               path: 'LineInfo',
+               path: '/stationInfo',
                name: '站点信息',
                iconCls: 'fa fa-arrow-circle-o-down',
-               component: LineInfo
+               component: StationInfo
            }
        ]
     },{
@@ -55,10 +57,10 @@ export default new Router({
         name: '班次信息',
         children: [
             {
-                path: 'LineInfo',
+                path: '/runsInfo',
                 name: '班次信息',
                 iconCls: 'fa fa-bell',
-                component: LineInfo
+                component: RunsInfo
             }
         ]
     }, {

@@ -26,5 +26,8 @@ public class LineController {
         return lineService.getLineByLineName(lineName);
     }
 
-
+    @RequestMapping(value = "/changeInfo", method = RequestMethod.POST)
+    public int updateLine(Line line){
+        return lineService.updateLine(line);
+    }
 }

@@ -24,4 +24,7 @@ public class LineService implements LineMapper {
         return lineMapper.getLineByLineName(lineName);
     }
 
+    public int updateLine(Line line) {
+        return lineMapper.updateLine(line);
+    }
 }

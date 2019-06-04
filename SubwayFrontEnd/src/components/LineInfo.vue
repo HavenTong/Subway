@@ -2,7 +2,7 @@
         <el-container style="direction:horizontal">
             <el-header id="chooseLine">
                 <span class="select" style="margin-top:10px">请选择地铁线路</span>       
-                    <el-select v-model="value"  filterable placeholder="请选择线路" @change="changeTable" class="select">
+                    <el-select v-model="value"  filterable placeholder="请选择线路" @change="changeTable(value)" class="select">
                         <el-option v-for="item in options" 
                                 :key="item.value" 
                                 :label="item.label" 
@@ -21,40 +21,41 @@
                     <el-form label-position="left" class="demo-table-expand">
                     <el-form-item label="线路名称">
                         <span>{{ props.row.lineName }}</span>
-                        <el-input v-model="inputLineInfo.inputLineName" 
+                        <el-input v-model="props.row.lineName" 
                                   placeholder="请输入修改的线路名"
-                                  clearable></el-input>
+                                  :disabled="true"
+                                  :clearable="true"></el-input>
                     </el-form-item>
                     <el-form-item label="起始站">
                         <span>{{ props.row.origin }}</span>
-                        <el-input v-model="inputLineInfo.inputOrigin" 
+                        <el-input v-model="props.row.origin" 
                                   placeholder="请输入修改的起始站名"
-                                  clearable></el-input>
+                                  :disabled="true"
+                                  :clearable="true"></el-input>
                     </el-form-item>
                     <el-form-item label="终点站">
                         <span>{{ props.row.destination }}</span>
-                        <el-input v-model="inputLineInfo.inputDestination" 
+                        <el-input v-model="props.row.destination" 
                                   placeholder="请输入修改的终点站名"
-                                  clearable></el-input>
+                                  :disabled="true"
+                                  :clearable="true"></el-input>
                     </el-form-item>
                     <el-form-item label="首班车">
                         <span>{{ props.row.startTime }}</span>
-                        <el-input v-model="inputLineInfo.inputStartTime" 
+                        <el-input v-model="inputLineInfo.startTime" 
                                   placeholder="请输入修改的首班车时间"
-                                  clearable></el-input>
+                                  :clearable="true"></el-input>
                     </el-form-item>
                     <el-form-item label="末班车">
                         <span>{{ props.row.endTime }}</span>
-                        <el-input v-model="inputLineInfo.inputEndTime" 
+                        <el-input v-model="inputLineInfo.endTime" 
                                   placeholder="请输入修改的末班车时间"
-                                  clearable></el-input>
+                                  :clearable="true"></el-input>
                     </el-form-item>
                     <el-form-item style="text-align:center">
                         <el-button type="primary" center="true" round>提交</el-button>
                     </el-form-item>
-                    </el-form>
-                    
-                    
+                    </el-form>    
                 </template>
                 </el-table-column>
                 <el-table-column prop="lineName" label="线路名称" ></el-table-column> 
@@ -63,11 +64,40 @@
                 <el-table-column prop="startTime" label="首班车" ></el-table-column>
                 <el-table-column prop="endTime" label="末班车"></el-table-column>
                 <el-table-column  label="操作" >
-                        <el-button type="primary" icon="el-icon-edit" size="medium" @click="goToChangeLineInfo"></el-button> 
-                </el-table-column>
+                    <template slot-scope="scope">
+                        <el-button type="primary" icon="el-icon-edit" size="medium" @click="goToChangeLineInfo(scope.row)"></el-button> 
+                    </template>
+                </el-table-column>  
             </el-table> 
+            <el-dialog title="更改线路信息" :visible.sync="dialogFormVisble">
+                    <el-form model="inputLineInfo">
+                        <el-form-item label="线路名">
+                            <el-input disabled="true"
+                                      :clearable="true"
+                                      v-model="inputLineInfo.lineName"></el-input>
+                        </el-form-item>
+                        <el-form-item label="起始站">
+                            <el-input disabled="true"
+                                      clearable="true"
+                                      v-model="inputLineInfo.origin"></el-input>
+                        </el-form-item>
+                        <el-form-item label="终点站">
+                            <el-input  disabled="true"
+                                       clearable="true"
+                                       v-model="inputLineInfo.destination"></el-input>
+                        </el-form-item>
+                        <el-form-item label="首班车">
+                            <el-input clearable="true"
+                                      v-model="inputLineInfo.startTime"></el-input>
+                        </el-form-item>
+                        <el-form-item label="末班车">
+                            <el-input clearable="true"
+                                      v-model="inputLineInfo.endTime"></el-input>
+                        </el-form-item>
+                        <el-button type="primary" center="true" round="true" @click="submitLineInfo(inputLineInfo)">提交</el-button>
+                    </el-form>
+            </el-dialog>  
             </el-main>
-        
         </el-container>
 </template>
 
@@ -75,7 +105,7 @@
 <script>
 import {postRequest} from '../utils/api'
 import {putRequest} from '../utils/api'
-import { stat } from 'fs';
+import { stat, link, copyFileSync } from 'fs';
 export default {
     data(){
         return {
@@ -121,44 +151,70 @@ export default {
             }],
             value: '',
             lines: [],
+            dialogFormVisble: false,
             inputLineInfo:{
-                inputLineName: '',
-                inputOrigin: '',
-                inputDestination: '',
-                inputStartTime: '',
-                inputEndTime: ''
+                lineName: '',
+                origin: '',
+                destination: '',
+                startTime: '',
+                endTime: ''
             }
-        }
+            
+        };
     },
     methods: {
-        changeTable(lineName){
-             this.$alert(lineName);
+        changeTable(searchLineName){
+            // this.$alert(searchLineName);
             var data = [];
             var obj = {};
             var _this = this;
             this.loading = true;
-            postRequest('/lineInfo',lineName).then(resp=>{
+            postRequest('/lineInfo/',{
+                lineName: searchLineName
+            }).then(resp=>{
                 _this.loading = false;
                 console.log(resp.data);
                 if(resp.status == 200){
                     var json = resp.data;
-                    for(let i = 0; i < json.length; i++){
-                        obj.lineName = json[i].lineName;
-                        obj.origin = json[i].origin;
-                        obj.destination = json[i].destination;
-                        obj.startTime = json[i].startTime;
-                        obj.endTime = json[i].endTime;
-                        data[i] = obj;
-                    }
-                    this.lines = data;
+                    console.log(json.length);
+                    this.lines = json;
+                    console.log(_this.lines);
                 }
             },resp=>{
                 _this.loading = false;
                 _this.$alert("无法找到该线路的信息");
             });
+        },
+
+        goToChangeLineInfo(rowLineInfo){
+            this.dialogFormVisble = true;
+            this.inputLineInfo = rowLineInfo;
+        },
+
+        submitLineInfo(inputLineInfo){
+            this.dialogFormVisble = false;
+            console.log(inputLineInfo);
+            this.loading = true;
+            postRequest('/lineInfo/changeInfo',{
+                lineName: inputLineInfo.lineName,
+                origin: inputLineInfo.origin,
+                destination: inputLineInfo.destination,
+                startTime: inputLineInfo.startTime,
+                endTime: inputLineInfo.endTime
+            }).then(
+                resp =>{
+                    this.loading = false;
+                    if(resp.status == 200){
+                        this.$alert("修改成功");
+                    }
+                },resp=>{
+                    this.loading = false;
+                    this.$alert("修改失败");
+                }
+            );
         }
     }
-}
+};
 </script>
 
 

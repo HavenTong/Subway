@@ -14,4 +14,5 @@ public interface RolesMapper {
     int addRoles(@Param("roles") String[] roles, @Param("uid") Long uid);
 
     List<Role> getRolesByUid(Long uid);
+
 }

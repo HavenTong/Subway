@@ -16,48 +16,6 @@
                     stripe
                     border
                     style="width: 100%">
-                <el-table-column type="expand">
-                <template slot-scope="props">
-                    <el-form label-position="left" class="demo-table-expand">
-                    <el-form-item label="线路名称">
-                        <span>{{ props.row.lineName }}</span>
-                        <el-input v-model="props.row.lineName" 
-                                  placeholder="请输入修改的线路名"
-                                  :disabled="true"
-                                  :clearable="true"></el-input>
-                    </el-form-item>
-                    <el-form-item label="起始站">
-                        <span>{{ props.row.origin }}</span>
-                        <el-input v-model="props.row.origin" 
-                                  placeholder="请输入修改的起始站名"
-                                  :disabled="true"
-                                  :clearable="true"></el-input>
-                    </el-form-item>
-                    <el-form-item label="终点站">
-                        <span>{{ props.row.destination }}</span>
-                        <el-input v-model="props.row.destination" 
-                                  placeholder="请输入修改的终点站名"
-                                  :disabled="true"
-                                  :clearable="true"></el-input>
-                    </el-form-item>
-                    <el-form-item label="首班车">
-                        <span>{{ props.row.startTime }}</span>
-                        <el-input v-model="inputLineInfo.startTime" 
-                                  placeholder="请输入修改的首班车时间"
-                                  :clearable="true"></el-input>
-                    </el-form-item>
-                    <el-form-item label="末班车">
-                        <span>{{ props.row.endTime }}</span>
-                        <el-input v-model="inputLineInfo.endTime" 
-                                  placeholder="请输入修改的末班车时间"
-                                  :clearable="true"></el-input>
-                    </el-form-item>
-                    <el-form-item style="text-align:center">
-                        <el-button type="primary" center="true" round>提交</el-button>
-                    </el-form-item>
-                    </el-form>    
-                </template>
-                </el-table-column>
                 <el-table-column prop="lineName" label="线路名称" ></el-table-column> 
                 <el-table-column prop="origin" label="起始站" ></el-table-column>
                 <el-table-column prop="destination" label="终点站"></el-table-column>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.sang.mapper.LineStationMapper">
+    <select id="getLineStationByLineNameAndStation" resultType="org.sang.bean.LineStation"
+            parameterType="org.sang.bean.LineStation">
+        SELECT * FROM linestation WHERE TRUE
+        <if test="lineName != null and lineName != ''">
+            AND lineName LIKE CONCAT(#{lineName}, '%')
+        </if>
+        <if test="stationName != null and stationName != ''">
+            AND stationName LIKE CONCAT('%', #{stationName}, '%')
+        </if>
+    </select>
+
+</mapper>

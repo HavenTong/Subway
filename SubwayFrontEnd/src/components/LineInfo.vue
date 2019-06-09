@@ -1,6 +1,6 @@
 <template>  
         <el-container style="direction:horizontal">
-            <el-header id="chooseLine">
+            <el-header class="header">
                 <span class="select" style="margin-top:10px">请选择地铁线路</span>       
                     <el-select v-model="value"  filterable placeholder="请选择线路" @change="changeTable(value)" class="select">
                         <el-option v-for="item in options" 
@@ -55,6 +55,42 @@
                         <el-button type="primary" center="true" round="true" @click="submitLineInfo(inputLineInfo)">提交</el-button>
                     </el-form>
             </el-dialog>  
+            </el-main>
+
+            <el-header class="header">
+                <span class="select">新增线路</span>
+            </el-header>
+            <el-main>
+                <el-form :model="newLineInfo" label-width="250px">
+                    <el-form-item label="线路名称">
+                        <el-col span="300px">
+                        <el-input v-model="newLineInfo.lineName" class="newLineForm" clearable="true"></el-input>
+                        </el-col>
+                    </el-form-item>
+                    <el-form-item label="起始站">
+                        <el-col span="300px">
+                        <el-input v-model="newLineInfo.origin" class="newLineForm" clearable="true"></el-input>
+                        </el-col>
+                    </el-form-item>
+                    <el-form-item label="终点站">
+                        <el-col span="300px">
+                        <el-input v-model="newLineInfo.destination" class="newLineForm" clearable="true"></el-input>
+                        </el-col>
+                    </el-form-item>
+                    <el-form-item label="首班车">
+                        <el-col span="300px">
+                        <el-input v-model="newLineInfo.startTime" class="newLineForm" clearable="true"></el-input>
+                        </el-col>
+                    </el-form-item>
+                    <el-form-item label="末班车">
+                        <el-col span="300px">
+                        <el-input v-model="newLineInfo.endTime" class="newLineForm" clearable="true"></el-input>
+                        </el-col>
+                    </el-form-item>
+                    <el-form-item style="margin-right:175px">
+                        <el-button type="primary" round="true">提交</el-button>
+                    </el-form-item>
+                </el-form>
             </el-main>
         </el-container>
 </template>
@@ -111,6 +147,13 @@ export default {
             lines: [],
             dialogFormVisble: false,
             inputLineInfo:{
+                lineName: '',
+                origin: '',
+                destination: '',
+                startTime: '',
+                endTime: ''
+            },
+            newLineInfo:{
                 lineName: '',
                 origin: '',
                 destination: '',
@@ -182,7 +225,11 @@ export default {
     padding: 20px; 
 }
 
-#chooseLine{
+.newLineForm{
+    margin-left: 100px
+}
+
+.header{
     background-color: white;
 }
 

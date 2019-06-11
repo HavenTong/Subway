@@ -1305,10 +1305,8 @@ create table cardUse(
 cardId varchar(20),
 useDate varchar(20),
 useTime varchar(20),
-lineStationName varchar(40),
-vehicle varchar(10),
-price varchar(10),
-discount varchar(20),
+lineName varchar(50),
+stationName varchar(40),
 primary key(cardId,useDate,useTime));
 
 alter table cardUse
@@ -1479,3 +1477,184 @@ where (cardId1,useDate1,useTime1) in
  select * from cardUse1;
  
  select count(*) from cardUse;
+ 
+ 
+ drop procedure if exists insertline;
+ 
+delimiter //
+create procedure insertline(in lineName varchar(50), in origin varchar(40), 
+                            in destination varchar(40), in startTime varchar(20), 
+                            in endTime varchar(20),out result varchar(20))
+begin
+     if(origin not in (select *
+					   from station))
+	 then insert into station
+                 values(origin);
+	 end if;
+     if(destination not in (select *
+							from station))
+	 then insert into station
+                 values(destination);
+	 end if;
+	 insert into line
+           values(lineName,origin,destination,startTime,endTime),
+				 (lineName,destination,origin,startTime,endTime);
+     insert into lineStation
+           values(lineName,origin,origin),
+                 (lineName,origin,destination),
+                 (lineName,destination,origin),
+                 (lineName,destination,destination);
+	 set result = "success";
+end//
+delimiter ;
+
+
+-- ----------------------------
+-- test
+-- ----------------------------
+call insertline('No.22','home','school','','');
+
+
+select * from line where lineName = 'No.22';
+delete from line where lineName = 'No.22';
+
+select * from station where stationName = 'home';
+delete from station where stationName = 'home';
+
+select * from station where stationName = 'school';
+delete from station where stationName = 'school';
+
+select * from lineStation where lineName = 'No.22';
+delete from lineStation where lineName = 'No.22';
+
+
+-- ----------------------------
+-- test
+-- ----------------------------
+
+
+
+drop procedure if exists insertstation;
+delimiter //
+create procedure insertstation(in lineName varchar(20), in origin varchar(40), 
+                               in stationName varchar(40),out result varchar(20))
+begin
+	declare insertDestination varchar(20);
+    select destination into insertDestination
+    from line
+    where line.lineName = lineName and line.origin = origin;
+     if(stationName not in (select *
+					        from station))
+	 then insert into station
+                 values(stationName);
+	 end if;
+     insert into lineStation
+		   values(lineName,origin,stationName),
+                 (lineName,insertDestination,stationName);
+	 set result = "success";
+end//
+delimiter ;
+
+
+set @result = '';
+call insertstation('No.22','home','toilet',@result);
+
+select @result;
+
+select * from lineStation where stationName = 'toilet';
+delete from lineStation where stationName = 'toilet';
+
+select * from station where stationName = 'toilet';
+delete from station where stationName = 'toilet';
+ 
+
+
+# add column to cardUse
+select * from cardUse2;
+alter table cardUse2 drop cardId2;
+alter table cardUse2 drop useDate2;
+alter table cardUse2 drop useTime2;
+drop table if exists cardUse1;
+create table cardUse2(
+cardId2 varchar(20),
+useDate2 varchar(20),
+useTime2 varchar(20),
+lineName2 varchar(40),
+stationName2 varchar(10)
+) as
+select cardId1, useDate1, useTime1, substring(lineStationName1,1,locate('线',lineStationName1)) as lineName2, 
+									substring(lineStationName1,locate('线',lineStationName1)+1,length(lineStationName1)) as stationName2
+from carduse1;
+
+# reduce duplicate
+insert into cardUse
+select *
+from cardUse2
+where (cardId1,useDate1,useTime1) in
+(select cardId1,useDate1,useTime1
+ from cardUse2
+ group by cardId1,useDate1,useTime1
+ having count(cardId1)=1);
+ 
+ select * from cardUse;
+ show index from cardUse;
+ 
+ # run
+drop table if exists run;
+
+create table run(
+runId int auto_increment,
+lineName varchar(50),
+origin varchar(40),
+morningRushInterval varchar(20),
+normalInterval varchar(20),
+nightRushInterval varchar(20),
+otherTimeInterval varchar(20),
+primary key(runId),
+foreign key(lineName,origin) references line(lineName,origin));
+
+insert into run
+	values(1,'1号线','莘庄','2分30秒','4分钟','3分钟','4-9分钟'),
+		  (2,'1号线','富锦路','2分30秒','6分钟','3分钟','4-9分钟'),
+          (3,'2号线','徐泾东','4分30秒','8分钟','7分钟','5-12分钟'),
+          (4,'2号线','浦东国际机场','4分30秒','8分钟','7分钟','5-12分钟'),
+          (5,'3号线','上海南站','7分30秒','7分钟','5分钟','5-10分钟'),
+          (6,'3号线','江杨北路','3分45秒','14分钟','10分钟','5-10分钟'),
+          (7,'4号线','上海体育馆','4分钟','7分钟','5分钟','7-15分钟'),
+          (8,'4号线','宜山路','6分40秒','7分钟','5分钟','7-15分钟'),
+          (9,'5号线(主线)','奉贤新城','8分钟','6分钟','8分钟','7分30秒-10分钟'),
+          (10,'5号线(主线)','莘庄','4分钟','6分钟','4分钟','7分30秒-10分钟'),
+          (11,'5号线(支线)','东川路','7分30秒','7分30秒','7分30秒','7分30秒-10分钟'),
+          (12,'5号线(支线)','闵行开发区','7分30秒','7分30秒','7分30秒','7分30秒-10分钟'),
+          (13,'6号线','东方体育中心','7分钟','9分钟','7分30秒','10-11分钟'),
+          (14,'6号线','港城路','4分20秒','9分钟','7分30秒','10-11分钟'),
+          (15,'7号线','美兰湖','6分15秒','11分钟','3分45秒','10-11分钟'),
+          (16,'7号线','花木路','5分20秒','5分30秒','5分钟','5-8分钟'),
+          (17,'8号线','市光路','2分50秒','6分钟','4分钟','10-12分钟'),
+          (18,'8号线','沈杜公路','3分钟','7分钟','4分钟','10-12分钟'),
+          (19,'9号线','曹路','3分钟','5分30秒','2分30秒','8-10分钟'),
+          (20,'9号线','松江南站','1分55秒','5分30秒','3分钟','8-10分钟'),
+          (21,'10号线(主线)','新江湾城','4分17秒','8分钟','8分钟','10分钟'),
+          (22,'10号线(主线)','虹桥火车站','4分钟','3分45秒','3分45秒','5分钟'),
+          (23,'10号线(支线)','航中路','10分钟','10分钟','10分钟','10分钟'),
+          (24,'10号线(支线)','龙溪路','4分钟','3分钟','3分45秒','5分钟'),
+          (25,'11号线(主线)','嘉定北','6分钟','6分钟','7分钟','5-7分钟'),
+          (26,'11号线(主线)','迪士尼','7分30秒','12分钟','6分钟','10-12分钟'),
+          (27,'11号线(支线)','嘉定新城','5分钟','12分钟','7分钟','6-8分钟'),
+          (28,'11号线(支线)','花桥','3分45秒','3分钟','6分钟','6-8分钟'),
+          (29,'12号线','七莘路','3分钟','6分钟','4分10秒','8-10分钟'),
+          (30,'12号线','金海路','6分钟','6分钟','8分20秒','8-10分钟'),
+          (31,'13号线','张江路','3分钟','6分钟','3分钟','6-10分钟'),
+          (32,'13号线','金运路','6分钟','6分钟','6分钟','6-10分钟'),
+          (33,'16号线','滴水湖','3分30秒','8分钟','4分钟','8-12分钟'),
+          (34,'16号线','龙阳路','4分30秒','8分钟','4分钟','8-12分钟'),
+          (35,'17号线','东方绿洲','10分钟','8分钟','10分钟','8-10分钟'),
+          (36,'17号线','虹桥火车站','5分钟','8分钟','5分钟','8-10分钟'),
+          (37,'浦江线','汇臻路','4分15秒','10分钟','5分钟','10分钟'),
+          (38,'浦江线','沈杜公路','4分15秒','10分钟','5分钟','10分钟'),
+          (39,'磁悬浮','浦东国际机场','20分钟','15分钟','20分钟','15分钟'),
+          (40,'磁悬浮','龙阳路','20分钟','15分钟','20分钟','20分钟');
+
+select * from run;
+delete from run where runId = 41;
+insert into run(lineName, origin, morningRushInterval, normalInterval, nightRushInterval, otherTimeInterval) values('No.22','home','','','','');

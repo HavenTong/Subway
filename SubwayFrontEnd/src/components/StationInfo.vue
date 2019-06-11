@@ -32,7 +32,7 @@
             </el-main>
 
             <el-header class="header">
-                <span class="select"><strong>新增线路</strong></span>
+                <span class="select"><strong>新增站点</strong></span>
             </el-header>
             <el-main>
                 <el-form :model="insertStationForm" label-width="250px">

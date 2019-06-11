@@ -1,7 +1,7 @@
 <template>
   <el-container style="direction:horizontal">
-            <el-header id="chooseLine" height="80px">
-                <span class="select" style="margin-top:10px">请选择地铁线路</span>       
+            <el-header class="header" height="80px">
+                <span class="select" style="margin-top:10px"><strong>请选择地铁线路</strong></span>       
                     <el-select  v-model="searchForm.searchLineName"  filterable placeholder="请选择线路" 
                                 @change="changeTable(value)" class="select"
                                 clearable="true">
@@ -11,7 +11,7 @@
                                 :value="item.label">
                         </el-option>
                     </el-select>
-                <span class="select" style="margin-top:10px">请输入地铁站名</span>
+                <span class="select" style="margin-top:10px"><strong>请输入地铁站名</strong></span>
                 <el-form id="stationSearch" model="searchForm" class="select" inline="true">
                         <el-form-item class="select">
                             <el-input v-model="searchForm.searchStationName"></el-input>
@@ -30,9 +30,34 @@
                           <el-table-column prop="stationName" label="停留站"></el-table-column>
                 </el-table>
             </el-main>
+
+            <el-header class="header">
+                <span class="select"><strong>新增线路</strong></span>
+            </el-header>
+            <el-main>
+                <el-form :model="insertStationForm" label-width="250px">
+                    <el-form-item label="新增站点停靠的线路">
+                         <el-col span="300px">
+                         <el-input v-model="insertStationForm.insertLineName" class="newStationForm" clearable="true"></el-input>
+                        </el-col>
+                    </el-form-item>
+                    <el-form-item label="新增站点停靠的线路的起点">
+                         <el-col span="300px">
+                         <el-input v-model="insertStationForm.insertOrigin" class="newStationForm" clearable="true"></el-input>
+                        </el-col>
+                    </el-form-item>
+                    <el-form-item label="新增站点名">
+                         <el-col span="300px">
+                         <el-input v-model="insertStationForm.insertStationName" class="newStationForm" clearable="true"></el-input>
+                        </el-col>
+                    </el-form-item>
+                    <el-form-item style="margin-right:175px">
+                        <el-button type="primary" round="true" @click="insertStation(insertStationForm)">提交</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-main>
             
   </el-container>
-
 
 
 </template>
@@ -89,7 +114,12 @@ export default {
                 searchLineName:'',
                 searchStationName:''
             },
-            lineStation:[]
+            lineStation:[],
+            insertStationForm:{
+                insertLineName:'',
+                insertOrigin:'',
+                insertStationName:'',
+            }
         };
     },
     methods:{
@@ -113,6 +143,29 @@ export default {
                 this.loading = false;
                 this.$alert("无法找到该线路的站点信息");
             });
+        },
+
+        insertStation(insertStationForm){
+            this.loading = true;
+            console.log(insertStationForm);
+            postRequest('/stationInfo/insertStation', {
+                lineName: insertStationForm.insertLineName,
+                origin: insertStationForm.insertOrigin,
+                stationName: insertStationForm.insertStationName
+            }).then(resp=>{
+                this.loading = false;
+                console.log(resp.data)
+                if(resp.status == 200){
+                    var result = resp.data;
+                    this.$alert(result);
+                    this.insertStationForm.insertLineName = '';
+                    this.insertStationForm.insertOrigin = '';
+                    this.insertStationForm.insertStationName = '';
+                }
+            }, resp=>{
+                this.loading = false;
+                this.$alert("新增站点失败");
+            })
         }
     }
 }
@@ -120,12 +173,17 @@ export default {
 
 
 <style>
-#chooseLine{
+.header{
     background-color: white;
 }
 
+
 .select{
-    margin-top: 20px;
+    padding: 20px; 
+}
+
+.newStationForm{
+    margin-left: 100px
 }
 
 #stationSearch{

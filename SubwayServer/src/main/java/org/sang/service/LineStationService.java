@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author HavenTong
@@ -24,6 +25,9 @@ public class LineStationService implements LineStationMapper {
         return lineStationMapper.getLineStationByLineNameAndStation(lineStation);
     }
 
-
+    public String insertStation(Map<String, Object> map){
+        lineStationMapper.insertStation(map);
+        return (String) map.get("result");
+    }
 
 }

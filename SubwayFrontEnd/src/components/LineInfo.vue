@@ -1,7 +1,7 @@
 <template>  
         <el-container style="direction:horizontal">
             <el-header class="header">
-                <span class="select" style="margin-top:10px">请选择地铁线路</span>       
+                <span class="select" style="margin-top:10px"> <strong>请选择地铁线路</strong></span>       
                     <el-select v-model="value"  filterable placeholder="请选择线路" @change="changeTable(value)" class="select">
                         <el-option v-for="item in options" 
                                 :key="item.value" 
@@ -58,37 +58,37 @@
             </el-main>
 
             <el-header class="header">
-                <span class="select">新增线路</span>
+                <span class="select"><strong>新增线路</strong></span>
             </el-header>
             <el-main>
-                <el-form :model="newLineInfo" label-width="250px">
-                    <el-form-item label="线路名称">
+                <el-form :model="newLineInfo" label-width="250px" ref="newLineInfo">
+                    <el-form-item label="线路名称" prop="lineName">
                         <el-col span="300px">
                         <el-input v-model="newLineInfo.lineName" class="newLineForm" clearable="true"></el-input>
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="起始站">
+                    <el-form-item label="起始站" prop="origin">
                         <el-col span="300px">
                         <el-input v-model="newLineInfo.origin" class="newLineForm" clearable="true"></el-input>
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="终点站">
+                    <el-form-item label="终点站" prop="destination">
                         <el-col span="300px">
                         <el-input v-model="newLineInfo.destination" class="newLineForm" clearable="true"></el-input>
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="首班车">
+                    <el-form-item label="首班车" prop="startTime">
                         <el-col span="300px">
                         <el-input v-model="newLineInfo.startTime" class="newLineForm" clearable="true"></el-input>
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="末班车">
+                    <el-form-item label="末班车" prop="endTime">
                         <el-col span="300px">
                         <el-input v-model="newLineInfo.endTime" class="newLineForm" clearable="true"></el-input>
                         </el-col>
                     </el-form-item>
                     <el-form-item style="margin-right:175px">
-                        <el-button type="primary" round="true">提交</el-button>
+                        <el-button type="primary" round="true" @click="insertNewLine(newLineInfo)">提交</el-button>
                     </el-form-item>
                 </el-form>
             </el-main>
@@ -213,6 +213,34 @@ export default {
                     this.$alert("修改失败");
                 }
             );
+        },
+
+        insertNewLine(newLineInfo){
+            console.log(newLineInfo);
+            this.loading = true;
+            postRequest('/lineInfo/insertLine',{
+                lineName:newLineInfo.lineName,
+                origin:newLineInfo.origin,
+                destination:newLineInfo.destination,
+                startTime:newLineInfo.startTime,
+                endTime:newLineInfo.endTime
+            }).then(resp=>{
+                this.loading = false;
+                if(resp.status == 200){
+                    var result = resp.data
+                    if(result == 'success'){
+                        this.newLineInfo.lineName = '';
+                        this.newLineInfo.origin = '';
+                        this.newLineInfo.destination = '';
+                        this.newLineInfo.startTime = '';
+                        this.newLineInfo.endTime = '';
+                        this.$alert("添加成功!请前往“站点信息”添加中间停靠站");
+                    }
+                }
+            }, resp=>{
+                this.loading = false;
+                this.$alert("新增线路失败");
+            })
         }
     }
 };

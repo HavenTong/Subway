@@ -10,4 +10,17 @@
     <select id="getLineByLineName" parameterType="String" resultType="org.sang.bean.Line">
         SELECT * FROM line WHERE lineName LIKE CONCAT(#{lineName},'%')
     </select>
+    
+    <select id="insertLine" parameterType="java.util.Map" statementType="CALLABLE">
+        {
+            call insertline(
+                #{lineName, mode=IN,jdbcType=VARCHAR},
+                #{origin, mode=IN, jdbcType=VARCHAR},
+                #{destination, mode=IN, jdbcType=VARCHAR},
+                #{startTime,mode=IN, jdbcType=VARCHAR},
+                #{endTime,mode=IN,jdbcType=VARCHAR},
+                #{result,mode=OUT,jdbcType=VARCHAR}
+            )
+        }
+    </select>
 </mapper>

@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author HavenTong
@@ -29,5 +31,16 @@ public class LineController {
     @RequestMapping(value = "/changeInfo", method = RequestMethod.POST)
     public int updateLine(Line line){
         return lineService.updateLine(line);
+    }
+
+    @RequestMapping(value = "/insertLine", method = RequestMethod.POST)
+    public String insertLine(Line line){
+        Map<String,Object> hashmap = new HashMap<>();
+        hashmap.put("lineName", line.getLineName());
+        hashmap.put("origin", line.getOrigin());
+        hashmap.put("destination", line.getDestination());
+        hashmap.put("startTime", line.getStartTime());
+        hashmap.put("endTime", line.getEndTime());
+        return lineService.insertLine(hashmap);
     }
 }

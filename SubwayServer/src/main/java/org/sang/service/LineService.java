@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author HavenTong
@@ -26,5 +28,10 @@ public class LineService implements LineMapper {
 
     public int updateLine(Line line) {
         return lineMapper.updateLine(line);
+    }
+
+    public String insertLine(Map<String,Object> map){
+        lineMapper.insertLine(map);
+        return (String)map.get("result");
     }
 }

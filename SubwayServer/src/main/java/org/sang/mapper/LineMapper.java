@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Update;
 import org.sang.bean.Line;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author HavenTong
@@ -22,4 +23,6 @@ public interface LineMapper {
 //    @Update("update line set startTime = #{startTime}, " +
 //            "endTime = #{endTime} where (lineName = #{lineName}) and (origin = #{origin})")
     int updateLine(Line line);
+
+    String insertLine(Map<String,Object> map);
 }

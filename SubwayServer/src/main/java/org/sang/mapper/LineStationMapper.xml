@@ -15,4 +15,15 @@
         </if>
     </select>
 
+    <select id="insertStation" parameterType="java.util.Map" statementType="CALLABLE">
+        {
+            call insertstation(
+                #{lineName, mode=IN, jdbcType=VARCHAR},
+                #{origin, mode=IN, jdbcType=VARCHAR},
+                #{stationName, mode=IN, jdbcType=VARCHAR},
+                #{result, mode=OUT, jdbcType=VARCHAR}
+            )
+        }
+    </select>
+
 </mapper>

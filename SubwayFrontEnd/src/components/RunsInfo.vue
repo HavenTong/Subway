@@ -43,11 +43,21 @@
                 <el-table-column prop="origin" label="起始站"></el-table-column>  
                 <el-table-column label="操作">
                     <template slot-scope="scope">
-                        <el-button type="primary" icon="el-icon-edit" circle="true"></el-button>
+                        <el-button type="primary" icon="el-icon-edit" circle="true" @click="goToChangeRuns(scope.row)"></el-button>
                         <el-button type="danger" icon="el-icon-delete" circle="true"></el-button>
                     </template>
                 </el-table-column>
                 </el-table>
+                <el-dialog title="更改调度方案" :visible.sync="dialogFormVisble">
+                    <el-form model="changeRunsForm">
+                        <el-form-item label="调度方案ID">
+                            <el-input clearable="true"
+                                      disabled="true"
+                                      v-model="changeRunsForm.runId"></el-input>
+                        </el-form-item>
+                        
+                    </el-form>
+                </el-dialog>
             </el-main>
 
             <el-header class="header">
@@ -152,6 +162,16 @@ export default {
                 insertNormalInterval:'',
                 insertNightRushInterval:'',
                 insertOtherTimeInterval:''
+            },
+            dialogFormVisble:false,
+            changeRunsForm:{
+                runId:0,
+                lineName:'',
+                origin:'',
+                morningRushInterval:'',
+                normalInterval:'',
+                nightRushInterval:'',
+                otherTimeInterval:''
             }
 
         }
@@ -174,6 +194,11 @@ export default {
                 this.loading = false;
                 this.$alert("无法找到该线路的班次");
             })
+        },
+
+        goToChangeRuns(changeRunsLine){
+            this.dialogFormVisble = true;
+            this.changeRunsForm = changeRunsLine;
         }
     },
     

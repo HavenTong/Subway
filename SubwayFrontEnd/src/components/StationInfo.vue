@@ -13,10 +13,11 @@
                     </el-select>
                 <span class="select" style="margin-top:10px"><strong>请输入地铁站名</strong></span>
                 <el-form id="stationSearch" model="searchForm" class="select" inline="true">
-                        <el-form-item class="select">
+                        <el-form-item class="select" style="margin-top:20px">
                             <el-input v-model="searchForm.searchStationName"></el-input>
                         </el-form-item>
-                        <el-button type="primary" round="true" class="select" @click="searchLineStation(searchForm)">查询</el-button>
+                            <el-button type="primary" round="true" class="select" @click="searchLineStation(searchForm)">查询</el-button>
+                        
                 </el-form>
             </el-header>
 

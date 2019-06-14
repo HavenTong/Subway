@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sang.mapper.DataStatisticMapper">
+    <select id="searchStationPopulationByTime" parameterType="java.util.Map" statementType="CALLABLE">
+        call graphStationPopulation(
+            #{startTime, mode=IN, jdbcType=VARCHAR},
+            #{endTime, mode=IN, jdbcType=VARCHAR},
+            #{date, mode=IN, jdbcType=VARCHAR},
+            #{result, mode=OUT, jdbcType=VARCHAR}
+        )
+    </select>
+
+    <select id="getStation" resultType="java.lang.String">
+        SELECT xStationName FROM stationpopulation;
+    </select>
+
+    <select id="getStationPopulation" resultType="java.lang.Integer`">
+        SELECT yPopulation FROM stationpopulation
+    </select>
+</mapper>

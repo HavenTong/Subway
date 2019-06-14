@@ -1663,3 +1663,12 @@ select * from run where runId = 1;
 update run set nightRushInterval = '3分钟' where runId = 1;
 
 delete from run where runId = 53;
+
+select * from linestation;
+delete from linestation where lineName = 'No.22';
+select * from line;
+delete from line where lineName = 'lineName';
+delete from line where lineName = 'No.22';
+
+
+alter table carduse add foreign key (stationName) references station(stationName); 

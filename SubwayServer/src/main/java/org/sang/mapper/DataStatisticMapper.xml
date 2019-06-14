@@ -16,7 +16,23 @@
         SELECT xStationName FROM stationpopulation;
     </select>
 
-    <select id="getStationPopulation" resultType="java.lang.Integer`">
+    <select id="getStationPopulation" resultType="java.lang.Integer">
         SELECT yPopulation FROM stationpopulation
+    </select>
+
+    <select id="searchTimePopulationByStation" parameterType="java.util.Map" statementType="CALLABLE">
+        call graphTimePopulation(
+            #{stationName, mode=IN, jdbcType=VARCHAR},
+            #{date, mode=IN, jdbcType=VARCHAR},
+            #{result, mode=OUT, jdbcType=VARCHAR}
+        )
+    </select>
+
+    <select id="getTimeInterval" resultType="java.lang.String">
+        SELECT xTime FROM timePopulation
+    </select>
+
+    <select id="getTimePopulation" resultType="java.lang.Integer">
+        SELECT yPopulation FROM timepopulation
     </select>
 </mapper>

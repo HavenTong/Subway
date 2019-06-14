@@ -1672,3 +1672,104 @@ delete from line where lineName = 'No.22';
 
 
 alter table carduse add foreign key (stationName) references station(stationName); 
+
+
+/*选择站点和日期(格式：yyyy-mm-dd)，可视化不同时间段的人流量*/
+create table timePopulation(
+xTime varchar(20),
+yPopulation int,
+primary key(xTime));
+
+insert into timePopulation
+       values('07:00-09:00',0),
+             ('09:00-11:00',0),
+			 ('11:00-13:00',0),
+             ('13:00-15:00',0),
+             ('15:00-17:00',0),
+             ('17:00-19:00',0),
+             ('19:00-21:00',0);
+             
+/*选择起始时间(格式：hh:mm:ss)和终止时间(格式：hh:mm:ss)以及日期(格式：yyyy-mm-dd)，可视化不同站点的人流量*/
+create table stationPopulation(
+xStationName varchar(40),
+yPopulation int,
+primary key(xStationName),
+foreign key(xStationName) references station(stationName));
+
+drop procedure if exists graphStationPopulation;
+delimiter //
+create procedure graphStationPopulation(in insertStartTime varchar(20), in insertEndTime varchar(20), in insertDate varchar(20), out result varchar(20))
+begin
+     delete from stationPopulation;
+     insert into stationPopulation
+            select stationName, count(distinct cardId)
+            from cardUse
+            where (useTime between insertStartTime and insertEndTime) and useDate=insertDate
+            group by stationName
+            order by count(distinct cardId) desc limit 7;
+	set result = 'success';
+end//
+delimiter ;
+
+set @result = '';
+call graphStationPopulation('07:00:00', '09:00:00', '2016-07-01', @result);
+select * from stationPopulation;
+
+create table graphTimePopulationView(
+useTimeView varchar(20));
+
+drop procedure if exists graphTimePopulation;
+delimiter //
+create procedure graphTimePopulation(in insertStationName varchar(40), in insertDate varchar(20),out result varchar(20))
+begin
+     declare count1 int default 0;
+     declare count2 int default 0;
+     declare count3 int default 0;
+     declare count4 int default 0;
+     declare count5 int default 0;
+     declare count6 int default 0;
+     declare count7 int default 0;
+     delete from graphTimePopulationView;
+     insert into graphTimePopulationView
+			select useTime
+            from cardUse
+            where stationName=insertStationName and useDate=insertDate;
+     select count(*) into count1
+	 from graphTimePopulationView
+	 where useTimeView between '07:00:00' and '09:00:00';
+	 select count(*) into count2
+	 from graphTimePopulationView
+	 where useTimeView between '09:00:00' and '11:00:00';
+     select count(*) into count3
+	 from graphTimePopulationView
+	 where useTimeView between '11:00:00' and '13:00:00';
+	 select count(*) into count4
+	 from graphTimePopulationView
+	 where useTimeView between '13:00:00' and '15:00:00';
+	 select count(*) into count5
+	 from graphTimePopulationView
+     where useTimeView between '15:00:00' and '17:00:00';
+     select count(*) into count6
+	 from graphTimePopulationView
+	 where useTimeView between '17:00:00' and '19:00:00';
+     select count(*) into count7
+     from graphTimePopulationView
+	 where useTimeView between '19:00:00' and '21:00:00';
+     delete from timePopulation;
+	 insert into timePopulation
+			values('07:00-09:00',count1),
+				  ('09:00-11:00',count2),
+				  ('11:00-13:00',count3),
+				  ('13:00-15:00',count4),
+				  ('15:00-17:00',count5),
+				  ('17:00-19:00',count6),
+				  ('19:00-21:00',count7);
+	set result = 'success';
+end//
+delimiter ;
+
+select * from timepopulation;
+set @result = '';
+call graphTimePopulation('莘庄', '2016-07-01', @result);
+
+select * from station;

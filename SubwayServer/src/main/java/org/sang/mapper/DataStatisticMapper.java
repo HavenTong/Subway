@@ -18,4 +18,10 @@ public interface DataStatisticMapper {
     List<String> getStation();
 
     List<Integer> getStationPopulation();
+
+    String searchTimePopulationByStation(Map<String, Object> map);
+
+    List<String> getTimeInterval();
+
+    List<Integer> getTimePopulation();
 }

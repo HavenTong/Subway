@@ -1,5 +1,6 @@
 package org.sang.controller;
 
+import org.sang.bean.StationWithDate;
 import org.sang.bean.TimeInterval;
 import org.sang.service.DataStatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,20 @@ public class DataStatisticController {
         List<Integer> stationPopulation = dataStatisticService.getStationPopulation();
         map.put("stations", stations);
         map.put("stationPopulation", stationPopulation);
+        return map;
+    }
+
+    @RequestMapping(value = "/timePopulation",method = RequestMethod.POST)
+    public Map<String,Object> timePopulation(StationWithDate stationWithDate){
+        Map<String,Object> map = new HashMap<>();
+        map.put("stationName", stationWithDate.getStationName());
+        map.put("date", stationWithDate.getDate());
+        String result = dataStatisticService.searchTimePopulationByStation(map);
+        System.out.println("Call graphTimePopulation ==> " + result);
+        List<String> timeIntervals = dataStatisticService.getTimeInterval();
+        List<Integer> timePopulation = dataStatisticService.getTimePopulation();
+        map.put("timeIntervals", timeIntervals);
+        map.put("timePopulation", timePopulation);
         return map;
     }
 

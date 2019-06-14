@@ -88,56 +88,6 @@ export default new Router({
                 component: UserMana
             }
         ]
-    },{
-      path: '/home',
-      component: Home,
-      name: '文章管理',
-      iconCls: 'fa fa-file-text-o',
-      children: [
-        {
-          path: '/articleList',
-          name: '文章列表',
-          component: ArticleList,
-          meta: {
-            keepAlive: true
-          }
-        }, {
-          path: '/postArticle',
-          name: '发表文章',
-          component: PostArticle,
-          meta: {
-            keepAlive: false
-          }
-        }, {
-          path: '/blogDetail',
-          name: '博客详情',
-          component: BlogDetail,
-          hidden: true,
-          meta: {
-            keepAlive: false
-          }
-        }, {
-          path: '/editBlog',
-          name: '编辑博客',
-          component: PostArticle,
-          hidden: true,
-          meta: {
-            keepAlive: false
-          }
-        }
-      ]
-    }, {
-      path: '/home',
-      component: Home,
-      name: '栏目管理',
-      children: [
-        {
-          path: '/cateMana',
-          iconCls: 'fa fa-reorder',
-          name: '栏目管理',
-          component: CateMana
-        }
-      ]
     }
   ]
 })

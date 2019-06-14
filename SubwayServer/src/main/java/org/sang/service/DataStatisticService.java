@@ -32,4 +32,17 @@ public class DataStatisticService implements DataStatisticMapper{
     public List<Integer> getStationPopulation(){
         return dataStatisticMapper.getStationPopulation();
     }
+
+    public String searchTimePopulationByStation(Map<String, Object> map){
+        dataStatisticMapper.searchTimePopulationByStation(map);
+        return (String)map.get("result");
+    }
+
+    public List<String> getTimeInterval(){
+        return dataStatisticMapper.getTimeInterval();
+    }
+
+    public List<Integer> getTimePopulation(){
+        return dataStatisticMapper.getTimePopulation();
+    }
 }

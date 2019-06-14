@@ -60,12 +60,20 @@
           </el-col>
           <el-col span="6">
             <el-form>
-              <el-form-item>
-                  <el-input v-model="searchStationForm.stationName"></el-input>
+              <el-form-item style="margin-top:20px">
+                  <el-input v-model="searchStationForm.stationName" placeholder="请输入站点名称"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
+          <el-col span="6">
+              <el-button type="primary" round="true" @click="searchTimePopulation(searchStationForm)">查询</el-button>
+          </el-col>
       </el-header>
+      <el-main>
+        <div style="display: flex;height: 500px;width: 100%;align-items: center;justify-content: center;">
+            <chart ref="dsStationChart" :options="stationGraphPolar" style="margin-top: 20px"></chart>
+        </div>
+      </el-main>
 
   </el-container>
 </template>
@@ -108,6 +116,58 @@
         polar: {
           title: {
             text: '当前时间段人流量TOP7站点',
+            left: 'left'
+          },
+          toolbox: {
+            show: true,
+            feature: {
+              dataZoom: {
+                yAxisIndex: 'none'
+              },
+              dataView: {
+                readOnly: false
+              },
+              magicType: {
+                type: ['line', 'bar']
+              },
+              restore: {},
+              saveAsImage: {}
+            }
+          },
+          tooltip: {
+              trigger:'axis'
+          },
+          legend: {
+            data: ['人流量']
+          },
+          xAxis: {
+            data: [],
+            axisLabel:{
+                interval:0
+            }
+          },
+          yAxis: {},
+          series: [{
+            name: '人流量',
+            type: 'bar',
+            data: [],
+            markPoint:{
+                data:[
+                    {type:'max', name:'最大值'}
+                ]
+            },
+            markLine:{
+                data:[
+                    {type:'average', name:'平均值'}
+                ]
+            }
+          }],
+          animationDuration: 3000
+        },
+
+        stationGraphPolar: {
+          title: {
+            text: '查询站点各时间段人流量',
             left: 'left'
           },
           toolbox: {
@@ -262,6 +322,27 @@
                 this.loading = false;
                 this.$alert("Failure");
             });
+        },
+
+        searchTimePopulation(searchStationForm){
+            this.loading = true;
+            console.log(searchStationForm);
+            postRequest('/dataStatistic/timePopulation',{
+                stationName: searchStationForm.stationName,
+                date: searchStationForm.date
+            }).then(resp=>{
+                this.loading = false;
+                console.log(resp.data);
+                if(resp.status == 200){
+                    var resultsForGraph = resp.data;
+                    // this.$alert(resultsForGraph.result);
+                    this.$refs.dsStationChart.options.xAxis.data = resultsForGraph.timeIntervals;
+                    this.$refs.dsStationChart.options.series[0].data = resultsForGraph.timePopulation;
+                }
+            }, resp=>{
+                this.loading = false;
+                this.$alert("Failure");
+            })
         }
     },
   }

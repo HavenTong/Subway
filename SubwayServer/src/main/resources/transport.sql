@@ -1658,3 +1658,8 @@ insert into run
 select * from run;
 delete from run where runId = 41;
 insert into run(lineName, origin, morningRushInterval, normalInterval, nightRushInterval, otherTimeInterval) values('No.22','home','','','','');
+
+select * from run where runId = 1;
+update run set nightRushInterval = '3分钟' where runId = 1;
+
+delete from run where runId = 53;

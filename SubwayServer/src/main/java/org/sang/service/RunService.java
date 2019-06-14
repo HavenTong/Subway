@@ -24,4 +24,15 @@ public class RunService implements RunMapper {
         return runMapper.getRunByLineName(lineName);
     }
 
+    public int changeRun(Run run){
+        return runMapper.changeRun(run);
+    }
+
+    public int insertNewRun(Run run){
+        return runMapper.insertNewRun(run);
+    }
+
+    public int deleteRun(int runId){
+        return runMapper.deleteRun(runId);
+    }
 }

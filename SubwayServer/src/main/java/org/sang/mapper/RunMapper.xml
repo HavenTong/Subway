@@ -8,4 +8,25 @@
         SELECT * FROM run WHERE lineName like CONCAT(#{lineName},'%')
     </select>
 
+    <update id="changeRun" parameterType="org.sang.bean.Run">
+        UPDATE run SET morningRushInterval = #{morningRushInterval},
+                       normalInterval = #{normalInterval},
+                       nightRushInterval = #{nightRushInterval},
+                       otherTimeInterval = #{otherTimeInterval}
+        WHERE runId = #{runId}
+    </update>
+
+    <insert id="insertNewRun" parameterType="org.sang.bean.Run">
+        INSERT INTO run (lineName, origin, morningRushInterval, normalInterval, nightRushInterval, otherTimeInterval) VALUES
+                    (#{lineName},
+                     #{origin},
+                     #{morningRushInterval},
+                     #{normalInterval},
+                     #{nightRushInterval},
+                     #{otherTimeInterval})
+    </insert>
+
+    <delete id="deleteRun" parameterType="int">
+        DELETE FROM run WHERE runId = #{runId}
+    </delete>
 </mapper>

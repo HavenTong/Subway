@@ -27,4 +27,18 @@ public class RunController {
         return runService.getRunByLineName(lineName);
     }
 
+    @RequestMapping(value = "/changeRun", method = RequestMethod.POST)
+    public int changeRun(Run run){
+        return runService.changeRun(run);
+    }
+
+    @RequestMapping(value = "/insertNewRun", method = RequestMethod.POST)
+    public int insertNewRun(Run run){
+        return runService.insertNewRun(run);
+    }
+
+    @RequestMapping(value = "/deleteRun", method = RequestMethod.POST)
+    public int deleteRun(int runId){
+        return runService.deleteRun(runId);
+    }
 }

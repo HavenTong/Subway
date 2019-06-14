@@ -14,4 +14,10 @@ import java.util.List;
 public interface RunMapper {
 
     List<Run> getRunByLineName(String lineName);
+
+    int changeRun(Run run);
+
+    int insertNewRun(Run run);
+
+    int deleteRun(int runId);
 }

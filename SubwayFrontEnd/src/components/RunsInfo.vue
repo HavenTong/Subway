@@ -44,7 +44,7 @@
                 <el-table-column label="操作">
                     <template slot-scope="scope">
                         <el-button type="primary" icon="el-icon-edit" circle="true" @click="goToChangeRuns(scope.row)"></el-button>
-                        <el-button type="danger" icon="el-icon-delete" circle="true"></el-button>
+                        <el-button type="danger" icon="el-icon-delete" circle="true" @click="deleteRun(scope.row)"></el-button>
                     </template>
                 </el-table-column>
                 </el-table>
@@ -55,7 +55,35 @@
                                       disabled="true"
                                       v-model="changeRunsForm.runId"></el-input>
                         </el-form-item>
-                        
+                        <el-form-item label="线路名">
+                            <el-input clearable="true"
+                                      disabled="true"
+                                      v-model="changeRunsForm.lineName"></el-input>
+                        </el-form-item>
+                        <el-form-item label="起始站">
+                            <el-input clearable="true"
+                                      disabled="true"
+                                      v-model="changeRunsForm.origin"></el-input>
+                        </el-form-item>
+                        <el-form-item label="早高峰(7:30-9:30)">
+                            <el-input clearable="true"
+                                      v-model="changeRunsForm.morningRushInterval"></el-input>
+                        </el-form-item>
+                        <el-form-item label="平峰(9:30-17:00)">
+                            <el-input clearable="true"
+                                      v-model="changeRunsForm.normalInterval"></el-input>
+                        </el-form-item>
+                        <el-form-item label="晚高峰(17:00-19:30)">
+                            <el-input clearable="true"
+                                      v-model="changeRunsForm.nightRushInterval"></el-input>
+                        </el-form-item>
+                        <el-form-item label="其他时间">
+                            <el-input clearable="true" v-model="changeRunsForm.otherTimeInterval">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" round="true" @click="changeRun(changeRunsForm)">提交</el-button>
+                        </el-form-item>
                     </el-form>
                 </el-dialog>
             </el-main>
@@ -98,7 +126,7 @@
                         </el-col>
                     </el-form-item>
                     <el-form-item style="margin-right:175px">
-                        <el-button type="primary" round="true">提交</el-button>
+                        <el-button type="primary" round="true" @click="insertNewRun(insertRunsForm)">提交</el-button>
                     </el-form-item>
                 </el-form>
             </el-main>
@@ -199,8 +227,84 @@ export default {
         goToChangeRuns(changeRunsLine){
             this.dialogFormVisble = true;
             this.changeRunsForm = changeRunsLine;
+        },
+
+        changeRun(changeRunsForm){
+            this.loading = true;
+            postRequest('/run/changeRun',{
+                runId: changeRunsForm.runId,
+                lineName: changeRunsForm.lineName,
+                origin: changeRunsForm.origin,
+                morningRushInterval: changeRunsForm.morningRushInterval,
+                normalInterval: changeRunsForm.normalInterval,
+                nightRushInterval: changeRunsForm.nightRushInterval,
+                otherTimeInterval: changeRunsForm.otherTimeInterval
+            }).then(resp=>{
+                this.loading = false;
+                console.log(resp.data);
+                if(resp.status == 200 && resp.data != 0){
+                    this.$alert("更新成功");
+                }else{
+                    this.$alert("更新失败，输入数据格式不正确");
+                }
+            }, resp=>{
+                this.loading = false;
+                this.$alert("更新失败，数据未成功传输到服务器");
+            });
+        },
+
+        insertNewRun(insertRunsForm){
+            this.loading = true;
+            console.log(insertRunsForm)
+            postRequest('/run/insertNewRun', {
+                runId:0,
+                lineName: insertRunsForm.insertLineName,
+                origin: insertRunsForm.insertOrigin,
+                morningRushInterval: insertRunsForm.insertMorningRushInterval,
+                normalInterval: insertRunsForm.insertNormalInterval,
+                nightRushInterval: insertRunsForm.insertNightRushInterval,
+                otherTimeInterval: insertRunsForm.insertOtherTimeInterval
+            }).then(resp=>{
+                this.loading = false;
+                if(resp.status == 200 && resp.data != 0){
+                    this.$alert("成功新增调度方案");
+                }else{
+                    this.$alert("新增调度方案失败，请按格式输入");
+                }
+            }, resp=>{
+                this.loading = false;
+                this.$alert("与服务器失去连接");
+            });
+        },
+
+        deleteRun(deleteRunsLine){
+            console.log(deleteRunsLine);
+            this.$confirm('此操作将永久删除该调度方案, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.loading = true;
+                console.log(deleteRunsLine);
+                postRequest('/run/deleteRun',{
+                    runId: deleteRunsLine.runId
+                }).then(resp=>{
+                    this.loading = false;
+                    if(resp.status == 200 && resp.data != 0){
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }
+                })  
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });          
+            });
         }
-    },
+    }
     
 }
 </script>

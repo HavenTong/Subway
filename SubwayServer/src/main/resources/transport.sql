@@ -1773,3 +1773,5 @@ set @result = '';
 call graphTimePopulation('莘庄', '2016-07-01', @result);
 
 select * from station;
+
+alter table cardUse drop primary key;

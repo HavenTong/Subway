@@ -17,7 +17,8 @@
     </update>
 
     <insert id="insertNewRun" parameterType="org.sang.bean.Run">
-        INSERT INTO run (lineName, origin, morningRushInterval, normalInterval, nightRushInterval, otherTimeInterval) VALUES
+        INSERT INTO run (lineName, origin, morningRushInterval,
+                         normalInterval, nightRushInterval, otherTimeInterval) VALUES
                     (#{lineName},
                      #{origin},
                      #{morningRushInterval},

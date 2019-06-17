@@ -4,7 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.sang.mapper.LineMapper">
     <update id="updateLine" parameterType="org.sang.bean.Line">
-        UPDATE line SET startTime = #{startTime}, endTime = #{endTime} WHERE (lineName = #{lineName}) AND (origin = #{origin})
+        UPDATE line SET startTime = #{startTime},
+        endTime = #{endTime} WHERE (lineName = #{lineName}) AND (origin = #{origin})
     </update>
 
     <select id="getLineByLineName" parameterType="String" resultType="org.sang.bean.Line">

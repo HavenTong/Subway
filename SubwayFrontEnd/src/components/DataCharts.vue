@@ -61,7 +61,7 @@
           <el-col span="6">
             <el-form>
               <el-form-item style="margin-top:20px">
-                  <el-input v-model="searchStationForm.stationName" placeholder="请输入站点名称"></el-input>
+                  <el-input v-model="searchStationForm.stationName" placeholder="请输入站点名称" clearable="true"></el-input>
               </el-form-item>
             </el-form>
           </el-col>

@@ -1775,3 +1775,13 @@ call graphTimePopulation('莘庄', '2016-07-01', @result);
 select * from station;
 
 alter table cardUse drop primary key;
+
+delete from station where stationName='school';
+delete from line where lineName = 'No.23';
+select * from line;
+delete from station where stationName = 'street';
+delete from lineStation where lineName = 'No.23';
+
+delete from linestation where stationName='school';
+
+delete from station where stationName = 'park';

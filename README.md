@@ -31,7 +31,7 @@
 
 2.  运行前端项目
 
-    1.  进入/SubwayFrontEnd
+    1.  进入SubwayFrontEnd
 
     2.  输入命令
 

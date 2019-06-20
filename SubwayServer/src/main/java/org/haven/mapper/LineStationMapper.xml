@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.haven.mapper.LineStationMapper">
+    <select id="getLineStationByLineNameAndStation" resultType="org.haven.bean.LineStation"
+            parameterType="org.haven.bean.LineStation">
+        SELECT * FROM linestation WHERE TRUE
+        <if test="lineName != null and lineName != ''">
+            AND lineName LIKE CONCAT(#{lineName}, '%')
+        </if>
+        <if test="stationName != null and stationName != ''">
+            AND stationName LIKE CONCAT('%', #{stationName}, '%')
+        </if>
+    </select>
+
+    <select id="insertStation" parameterType="java.util.Map" statementType="CALLABLE">
+        {
+            call insertstation(
+                #{lineName, mode=IN, jdbcType=VARCHAR},
+                #{origin, mode=IN, jdbcType=VARCHAR},
+                #{stationName, mode=IN, jdbcType=VARCHAR},
+                #{result, mode=OUT, jdbcType=VARCHAR}
+            )
+        }
+    </select>
+
+</mapper>

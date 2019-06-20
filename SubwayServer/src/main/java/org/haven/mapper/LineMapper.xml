@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.haven.mapper.LineMapper">
+    <update id="updateLine" parameterType="org.haven.bean.Line">
+        UPDATE line SET startTime = #{startTime},
+        endTime = #{endTime} WHERE (lineName = #{lineName}) AND (origin = #{origin})
+    </update>
+
+    <select id="getLineByLineName" parameterType="String" resultType="org.haven.bean.Line">
+        SELECT * FROM line WHERE lineName LIKE CONCAT(#{lineName},'%')
+    </select>
+    
+    <select id="insertLine" parameterType="java.util.Map" statementType="CALLABLE">
+        {
+            call insertline(
+                #{lineName, mode=IN,jdbcType=VARCHAR},
+                #{origin, mode=IN, jdbcType=VARCHAR},
+                #{destination, mode=IN, jdbcType=VARCHAR},
+                #{startTime,mode=IN, jdbcType=VARCHAR},
+                #{endTime,mode=IN,jdbcType=VARCHAR},
+                #{result,mode=OUT,jdbcType=VARCHAR}
+            )
+        }
+    </select>
+</mapper>

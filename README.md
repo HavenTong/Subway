@@ -1,5 +1,5 @@
 # 地铁调度助手
-<img src="https://upload.wikimedia.org/wikipedia/en/3/31/Shanghai_Metro_logo.svg" style="width:30%">
+<img src="https://upload.wikimedia.org/wikipedia/en/3/31/Shanghai_Metro_logo.svg" style="width:10%">
 
 ## 项目说明
 
@@ -60,9 +60,9 @@
 -   MyBatis
 -   MySQL 8.0
 
-<img src="https://i2.wp.com/www.thecuriousdev.org/wp-content/uploads/2017/12/spring-boot-logo.png?w=600&ssl=1" style="width:40%">
+<img src="https://i2.wp.com/www.thecuriousdev.org/wp-content/uploads/2017/12/spring-boot-logo.png?w=600&ssl=1" style="width:20%">
 
-<img src="https://upload.wikimedia.org/wikipedia/zh/6/62/MySQL.svg" style="width:40%">
+<img src="https://upload.wikimedia.org/wikipedia/zh/6/62/MySQL.svg" style="width:20%">
 
 ### 前端技术栈
 
@@ -72,7 +72,7 @@
 -   vue-echarts
 -   vue-router
 
-<img src="https://vuejs.org/images/logo.png" style="width:30%">
+<img src="https://vuejs.org/images/logo.png" style="width:20%">
 
 
 

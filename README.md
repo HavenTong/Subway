@@ -74,7 +74,10 @@
 
   <div align=center><img src="https://vuejs.org/images/logo.png" width="20%"></div>
 
-
+## NOTES
+本项目的数据来源为上海交通卡刷卡数据，数据存放在本地，不能公开。仅能通过图片查看可视化的效果
+![](https://github.com/HavenTong/Subway/blob/master/doc/stationVisulization.PNG)
+![](https://github.com/HavenTong/Subway/blob/master/doc/timeVisulization.PNG)
 
 
 

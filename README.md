@@ -1,5 +1,5 @@
 # 地铁调度助手
-<img src="https://upload.wikimedia.org/wikipedia/en/3/31/Shanghai_Metro_logo.svg" style="width:10%">
+<img src="https://upload.wikimedia.org/wikipedia/en/3/31/Shanghai_Metro_logo.svg" width="20%">
 
 ## 项目说明
 
@@ -60,7 +60,7 @@
 -   MyBatis
 -   MySQL 8.0
 
-<img src="https://i2.wp.com/www.thecuriousdev.org/wp-content/uploads/2017/12/spring-boot-logo.png?w=600&ssl=1" style="width:20%">
+<img src="https://i2.wp.com/www.thecuriousdev.org/wp-content/uploads/2017/12/spring-boot-logo.png?w=600&ssl=1" width="20%">
 
 <img src="https://upload.wikimedia.org/wikipedia/zh/6/62/MySQL.svg" style="width:20%">
 

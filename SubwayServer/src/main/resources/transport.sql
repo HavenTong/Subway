@@ -1361,16 +1361,13 @@ INSERT INTO `user` VALUES ('17', 'baizhantang', '白展堂', '202cb962ac59075b96
 INSERT INTO `user` VALUES ('18', 'renwoxing', '任我行', '202cb962ac59075b964b07152d234b70', '1', 'renwoxing@qq.com', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-24 06:30:46');
 INSERT INTO `user` VALUES ('19', 'zuolengchan', '左冷禅', '202cb962ac59075b964b07152d234b70', '1', 'zuolengchan@qq.com', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-24 06:30:46');
 INSERT INTO `user` VALUES ('20', 'fengqingyang', '风清扬', '202cb962ac59075b964b07152d234b70', '1', 'fengqingyang@qq.com', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-24 06:30:46');
-INSERT INTO `user` VALUES ('23', 'zsdr', '吴宇航', '202cb962ac59075b964b07152d234b70', '1', '10175101147@stu.ecnu.edu.cn', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-21 13:30:29');
-INSERT INTO `user` VALUES ('25', 'Haven', '童翰文', '202cb962ac59075b964b07152d234b70', '1', '10175101147@stu.ecnu.edu.cn', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-21 13:30:29');
-INSERT INTO `user` VALUES ('27', 'pf', '彭锋', '202cb962ac59075b964b07152d234b70', '1', '10175101147@stu.ecnu.edu.cn', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-21 13:30:29');
+INSERT INTO `user` VALUES ('23', 'zsdr', 'zsdr', '202cb962ac59075b964b07152d234b70', '1', '10175101147@stu.ecnu.edu.cn', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-21 13:30:29');
+INSERT INTO `user` VALUES ('22', 'Haven', 'Haven', '202cb962ac59075b964b07152d234b70', '1', '10175101147@stu.ecnu.edu.cn', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-21 13:30:29');
+INSERT INTO `user` VALUES ('27', 'pf', 'pf', '202cb962ac59075b964b07152d234b70', '1', '10175101147@stu.ecnu.edu.cn', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-21 13:30:29');
 INSERT INTO `user` VALUES ('29', 'dk', '科比', '202cb962ac59075b964b07152d234b70', '1', '10175101147@stu.ecnu.edu.cn', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-21 13:30:29');
 INSERT INTO `user` VALUES ('31', 'dk', 'James', '202cb962ac59075b964b07152d234b70', '1', '10175101147@stu.ecnu.edu.cn', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-21 13:30:29');
 
 
-update `user` set `nickname` = 'Haven' where id = 22;
-update `user` set `nickname` = 'pf' where id = 27;
-select * from user;
 -- ----------------------------
 -- Table structure for roles_user
 -- ----------------------------

@@ -31,7 +31,7 @@
 
 2.  运行前端项目
 
-    1.  进入/SubwayFrontEnd
+    1.  进入SubwayFrontEnd
 
     2.  输入命令
 
@@ -47,7 +47,7 @@
 
 3.  运行后端项目
 
-    1.  进入**/SubwayServer/src/main/resources**，找到**transport.sql**文件，在数据库中执行所有建表和插入语句
+    1.  进入**SubwayServer/src/main/resources**，找到**transport.sql**文件，在数据库中执行所有建表和插入语句
     2.  在IntelliJ IDEA中安装好Maven项目的依赖包
     3.  在IntelliJ IDEA中运行
 

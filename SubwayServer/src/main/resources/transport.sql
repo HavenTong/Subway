@@ -1328,16 +1328,7 @@ price1 varchar(10),
 discount1 varchar(20)
 );
 
-select * from line;
 
-SET bulk_insert_buffer_size =1024*1024*256;
-show variables like '%bulk%';
-
-
-
-
-
-select count(*) from cardUse1;
 
 
 -- ----------------------------
@@ -1375,12 +1366,6 @@ INSERT INTO `user` VALUES ('25', 'Haven', '童翰文', '202cb962ac59075b964b0715
 INSERT INTO `user` VALUES ('27', 'pf', '彭锋', '202cb962ac59075b964b07152d234b70', '1', '10175101147@stu.ecnu.edu.cn', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-21 13:30:29');
 
 
-
-
-select * from user;
-
-delete from `user` where id = 22;
-delete from `user` where id = 21;
 
 
 -- ----------------------------
@@ -1434,15 +1419,7 @@ insert into `roles_user` values ('19','1','25');
 insert into `roles_user` values ('18','5','25');
 insert into `roles_user` values ('21','5', '27');
 
-delete from `roles_user` where uid = 22;
 
-select * from roles_user;
-
-SELECT r.* FROM roles r,roles_user ru WHERE r.`id`=ru.`rid` AND ru.`uid`= 22;
-
-SELECT r.* FROM roles r,roles_user ru WHERE r.`id`=ru.`rid` AND ru.`uid`= 22;
-
-SELECT r.* FROM roles r,roles_user ru WHERE r.`id`=ru.`rid` AND ru.`uid`= 7;
 
 -- ----------------------------
 -- Table structure for roles
@@ -1556,6 +1533,7 @@ end//
 delimiter ;
 
 
+# tests
 set @result = '';
 call insertstation('No.22','home','toilet',@result);
 
@@ -1655,6 +1633,11 @@ insert into run
           (39,'磁悬浮','浦东国际机场','20分钟','15分钟','20分钟','15分钟'),
           (40,'磁悬浮','龙阳路','20分钟','15分钟','20分钟','20分钟');
 
+
+
+
+# test 
+
 select * from run;
 delete from run where runId = 41;
 insert into run(lineName, origin, morningRushInterval, normalInterval, nightRushInterval, otherTimeInterval) values('No.22','home','','','','');
@@ -1669,6 +1652,8 @@ delete from linestation where lineName = 'No.22';
 select * from line;
 delete from line where lineName = 'lineName';
 delete from line where lineName = 'No.22';
+
+# test
 
 
 alter table carduse add foreign key (stationName) references station(stationName); 
@@ -1768,6 +1753,8 @@ begin
 end//
 delimiter ;
 
+# test
+
 select * from timepopulation;
 set @result = '';
 call graphTimePopulation('莘庄', '2016-07-01', @result);
@@ -1777,11 +1764,13 @@ select * from station;
 alter table cardUse drop primary key;
 
 delete from station where stationName='school';
-delete from line where lineName = 'No.23';
+delete from line where lineName = '23号线';
 select * from line;
 delete from station where stationName = 'street';
-delete from lineStation where lineName = 'No.23';
+delete from lineStation where lineName = '23号线';
 
-delete from linestation where stationName='school';
+delete from linestation where stationName='park';
 
 delete from station where stationName = 'park';
+
+# test
